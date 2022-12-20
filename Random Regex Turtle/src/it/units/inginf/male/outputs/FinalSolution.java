@@ -28,6 +28,12 @@ import java.util.Map;
  * @author MaleLabTs
  */
 public class FinalSolution extends Solution{
+    private String solutionJS;
+    private Map<String,Double> trainingPerformances = new HashMap<>();
+    private Map<String,Double> validationPerformances = new HashMap<>();
+    private Map<String,Double> learningPerformances = new HashMap<>();
+
+    private Ranking individual = null;
 
     public FinalSolution() {
     }
@@ -35,6 +41,7 @@ public class FinalSolution extends Solution{
     public FinalSolution(Ranking individual) {
         super(individual);
         this.solutionJS = getDescriptionJavascript(individual.getTree());
+        this.individual = individual;
     }
    
     private String getDescriptionJavascript(Node node){
@@ -57,10 +64,6 @@ public class FinalSolution extends Solution{
         super(solution, fitness);
     }
 
-    private String solutionJS;
-    private Map<String,Double> trainingPerformances = new HashMap<>();
-    private Map<String,Double> validationPerformances = new HashMap<>();
-    private Map<String,Double> learningPerformances = new HashMap<>();
 
     public Map<String, Double> getTrainingPerformances() {
         return trainingPerformances;
