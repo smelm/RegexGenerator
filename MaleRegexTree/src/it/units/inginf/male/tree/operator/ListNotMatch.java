@@ -17,6 +17,7 @@
  */
 package it.units.inginf.male.tree.operator;
 
+import com.google.gson.JsonObject;
 import it.units.inginf.male.tree.Constant;
 import it.units.inginf.male.tree.DescriptionContext;
 import it.units.inginf.male.tree.Node;
@@ -35,8 +36,8 @@ public class ListNotMatch extends UnaryOperator {
 
     @Override
     public void describe(StringBuilder builder, DescriptionContext context, RegexFlavour flavour) {
-        Node child = getChildrens().get(0);
         builder.append("[^");
+        Node child = getChildrens().get(0);
         child.describe(builder, context, flavour);
         builder.append("]");
     }
@@ -63,5 +64,10 @@ public class ListNotMatch extends UnaryOperator {
     @Override
     public boolean isCharacterClass() {
         return true;
+    }
+
+    @Override
+    public JsonObject toJson() {
+        throw new UnsupportedOperationException();
     }
 }

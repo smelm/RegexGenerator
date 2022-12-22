@@ -17,6 +17,8 @@
  */
 package it.units.inginf.male.tree;
 
+import com.google.gson.JsonObject;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -120,6 +122,15 @@ public class Constant extends AbstractNode implements Leaf {
         }
         return true;
     }
-    
-    
+
+    public String getValue(){
+        return value;
+    }
+
+    @Override
+    public JsonObject toJson() {
+        var obj = new JsonObject();
+        obj.addProperty("type", "literal");
+        return obj;
+    }
 }

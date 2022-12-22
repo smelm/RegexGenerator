@@ -17,6 +17,9 @@
  */
 package it.units.inginf.male.tree.operator;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import it.units.inginf.male.tree.Constant;
 import it.units.inginf.male.tree.DescriptionContext;
 import it.units.inginf.male.tree.Node;
@@ -35,8 +38,8 @@ public class ListMatch extends UnaryOperator {
 
     @Override
     public void describe(StringBuilder builder, DescriptionContext context, RegexFlavour flavour) {
-        Node child = getChildrens().get(0);
         builder.append("[");
+        Node child = getChildrens().get(0);
         child.describe(builder, context, flavour);
         builder.append("]");
     }
@@ -65,5 +68,38 @@ public class ListMatch extends UnaryOperator {
     public boolean isCharacterClass() {
         return true;
     }
-     
+
+    @Override
+    public JsonObject toJson() {
+        if(!isValid()){
+            throw new IllegalStateException("invalid character class");
+        }
+
+        var obj = new JsonObject();
+        obj.addProperty("type", "characterClass");
+        var children = prepareChildren(getChildrens().get(0));
+        return obj;
+    }
+
+    private JsonArray prepareChildren(Node child){
+        var children = new JsonArray();
+        if(child instanceof RegexRange){
+            var members = child.toJson().getAsJsonArray("members");
+            children.addAll(members);
+        } else if (child instanceof Constant){
+            var value = ((Constant) child).getValue();
+            children.add(new JsonPrimitive(value));
+        } else if (child instanceof Concatenator){
+            var left = ((Concatenator) child).getLeft();
+            var right = ((Concatenator) child).getRight();
+            var leftChildren = prepareChildren(left);
+            var rightChildren = prepareChildren(right);
+            children.addAll(leftChildren);
+            children.addAll(rightChildren);
+
+        } else {
+            throw new IllegalStateException("invalid child");
+        }
+        return children;
+    }
 }

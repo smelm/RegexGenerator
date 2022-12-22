@@ -17,6 +17,7 @@
  */
 package it.units.inginf.male.tree.operator;
 
+import com.google.gson.JsonObject;
 import it.units.inginf.male.tree.AbstractNode;
 import it.units.inginf.male.tree.DescriptionContext;
 import it.units.inginf.male.tree.Leaf;
@@ -99,5 +100,13 @@ public class Backreference extends AbstractNode implements Leaf {
         }
         return true;
     }
-    
+
+    @Override
+    public JsonObject toJson() {
+        var obj = new JsonObject();
+        obj.addProperty("type", "backreference");
+        obj.addProperty("groupName", "group_" + Integer.toString(value));
+        return obj;
+
+    }
 }

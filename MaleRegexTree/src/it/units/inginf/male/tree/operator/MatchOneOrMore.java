@@ -17,6 +17,7 @@
  */
 package it.units.inginf.male.tree.operator;
 
+import com.google.gson.JsonObject;
 import it.units.inginf.male.tree.DescriptionContext;
 import it.units.inginf.male.tree.Node;
 
@@ -64,6 +65,11 @@ public class MatchOneOrMore extends Quantifier {
     protected UnaryOperator buildCopy() {
         return new MatchOneOrMore();
     }
-     
+
+    @Override
+    public JsonObject toJson() {
+        // lazy operators are not supported
+        throw new UnsupportedOperationException();
+    }
 
 }

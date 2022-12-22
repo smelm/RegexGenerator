@@ -17,7 +17,10 @@
  */
 package it.units.inginf.male.tree.operator;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import it.units.inginf.male.tree.DescriptionContext;
+import it.units.inginf.male.tree.Node;
 
 /**
  *
@@ -49,5 +52,17 @@ public class Or extends BinaryOperator {
             return false;
         }
         return getLeft().isValid() && getRight().isValid();
+    }
+
+    @Override
+    public JsonObject toJson() {
+        var obj = new JsonObject();
+        obj.addProperty("type", "alternative");
+        var children = new JsonArray();
+        for(Node child: getChildrens()){
+            children.add(child.toJson());
+        }
+        obj.add("children", children);
+        return obj;
     }
 }

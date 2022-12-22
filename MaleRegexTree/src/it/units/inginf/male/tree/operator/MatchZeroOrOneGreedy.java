@@ -17,6 +17,8 @@
  */
 package it.units.inginf.male.tree.operator;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import it.units.inginf.male.tree.DescriptionContext;
 
 /**
@@ -35,5 +37,13 @@ public class MatchZeroOrOneGreedy extends Quantifier {
     protected UnaryOperator buildCopy() {
         return new MatchZeroOrOneGreedy();
     }
-    
+
+    @Override
+    public JsonObject toJson() {
+        var obj = new JsonObject();
+        obj.addProperty("type", "maybe");
+        obj.add("child", getChildrens().get(0).toJson());
+        return obj;
+    }
+
 }

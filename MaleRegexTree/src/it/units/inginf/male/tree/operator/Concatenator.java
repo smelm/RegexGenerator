@@ -17,6 +17,8 @@
  */
 package it.units.inginf.male.tree.operator;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import it.units.inginf.male.tree.DescriptionContext;
 
 /**
@@ -43,4 +45,15 @@ public class Concatenator extends BinaryOperator {
         return getLeft().isValid() && getRight().isValid();
     }
 
+    @Override
+    public JsonObject toJson() {
+        var obj = new JsonObject();
+        obj.addProperty("type", "sequence");
+        var children = new JsonArray();
+        children.add(getLeft().toJson());
+        children.add(getRight().toJson());
+        obj.add("children", children);
+        return obj;
+
+    }
 }

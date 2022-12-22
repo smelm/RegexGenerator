@@ -18,6 +18,7 @@
 package it.units.inginf.male.tree;
 
 import java.util.List;
+import com.google.gson.JsonObject;
 
 /**
  *
@@ -46,4 +47,5 @@ public interface Node {
     }
     public boolean isCharacterClass();
     public boolean isEscaped();
+    public JsonObject toJson();
 }

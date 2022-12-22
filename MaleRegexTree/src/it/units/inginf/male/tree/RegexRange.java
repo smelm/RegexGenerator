@@ -17,9 +17,11 @@
  */
 package it.units.inginf.male.tree;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
+
+import java.util.*;
 
 /**
  *
@@ -106,6 +108,51 @@ public class RegexRange extends AbstractNode implements Leaf {
         }
         return true;
     }
-    
-    
+
+    private void addElementToRangeList(JsonArray arr, String a){
+        addElementToRangeList(arr, a, a);
+    }
+
+    private void addElementToRangeList(JsonArray arr, String a, String b){
+        var tuple = new JsonArray();
+        tuple.add(new JsonPrimitive(a));
+        tuple.add(new JsonPrimitive(b));
+        arr.add(tuple);
+    }
+
+    @Override
+    public JsonObject toJson() {
+        // TODO this does not work with classes not containing
+        var rangeList = new JsonArray();
+
+        var splits = value.split("-");
+
+        var split = splits[0];
+
+        for(int i = 0; i < split.length() - 1; i++){
+            addElementToRangeList(rangeList, split.substring(i, i+1));
+        }
+
+        String lower = split.substring(split.length() - 1, split.length());
+
+        for(int i= 1; i < splits.length; i++){
+            split = splits[i];
+            String upper = split.substring(0, 1);
+            addElementToRangeList(rangeList, lower, upper);
+
+            for(int j = 1; j < split.length() - 1; j++){
+                addElementToRangeList(rangeList, split.substring(j + 1));
+            }
+            lower = split.substring(split.length() - 1, split.length());
+        }
+
+        if(split.length() > 1){
+            addElementToRangeList(rangeList, lower);
+        }
+
+        var obj = new JsonObject();
+        obj.addProperty("type", "characterClass");
+        obj.add("members", rangeList);
+        return obj;
+    }
 }

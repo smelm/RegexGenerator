@@ -17,6 +17,7 @@
  */
 package it.units.inginf.male.tree.operator;
 
+import com.google.gson.JsonObject;
 import it.units.inginf.male.tree.DescriptionContext;
 
 /**
@@ -42,4 +43,12 @@ public class NonCapturingGroup extends UnaryOperator {
         return getChildrens().get(0).isValid();
     }
 
+    @Override
+    public JsonObject toJson() {
+        var obj = new JsonObject();
+        obj.addProperty("type", "group");
+        obj.add("child", getChildrens().get(0).toJson());
+        obj.addProperty("name", "xyz"); //TODO
+        return obj;
+    }
 }

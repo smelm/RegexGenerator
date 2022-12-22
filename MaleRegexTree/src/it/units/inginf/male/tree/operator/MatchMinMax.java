@@ -17,6 +17,7 @@
  */
 package it.units.inginf.male.tree.operator;
 
+import com.google.gson.JsonObject;
 import it.units.inginf.male.tree.Anchor;
 import it.units.inginf.male.tree.Constant;
 import it.units.inginf.male.tree.DescriptionContext;
@@ -57,9 +58,9 @@ public class MatchMinMax extends TernaryOperator {
                 }
 
                 builder.append("{");
-                builder.append(Integer.parseInt(getSecond().toString()));
+                builder.append(getLower());
                 builder.append(",");
-                builder.append(Integer.parseInt(getThird().toString()));
+                builder.append(getUpper());
                 builder.append("}+");
                 break;
             default:
@@ -72,13 +73,21 @@ public class MatchMinMax extends TernaryOperator {
                     builder.append(tmp);
                 }
                 builder.append("{");
-                builder.append(Integer.parseInt(getSecond().toString()));
+                builder.append(getLower());
                 builder.append(",");
-                builder.append(Integer.parseInt(getThird().toString()));
+                builder.append(getUpper());
                 builder.append("}))\\").append(index);
                 context.incExpansionGroups();
         }
 
+    }
+
+    private int getLower(){
+        return Integer.parseInt(getSecond().toString());
+    }
+
+    private int getUpper(){
+        return Integer.parseInt(getThird().toString());
     }
 
     @Override
@@ -109,5 +118,11 @@ public class MatchMinMax extends TernaryOperator {
 
 
         return false;
+    }
+
+    @Override
+    public JsonObject toJson() {
+        // lazy operators are not supported
+        throw new UnsupportedOperationException();
     }
 }

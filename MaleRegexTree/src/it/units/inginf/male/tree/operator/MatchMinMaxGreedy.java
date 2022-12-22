@@ -17,6 +17,8 @@
  */
 package it.units.inginf.male.tree.operator;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import it.units.inginf.male.tree.Constant;
 import it.units.inginf.male.tree.DescriptionContext;
 import it.units.inginf.male.tree.Node;
@@ -36,10 +38,18 @@ public class MatchMinMaxGreedy extends TernaryOperator {
     public void describe(StringBuilder builder, DescriptionContext context, RegexFlavour flavour) {
         getFirst().describe(builder, context, flavour);
         builder.append("{");
-        builder.append(Integer.parseInt(getSecond().toString()));
+        builder.append(getLower());
         builder.append(",");
-        builder.append(Integer.parseInt(getThird().toString()));
+        builder.append(getUpper());
         builder.append("}");
+    }
+
+    private int getLower(){
+        return Integer.parseInt(getSecond().toString());
+    }
+
+    private int getUpper(){
+        return Integer.parseInt(getThird().toString());
     }
 
     @Override
@@ -69,5 +79,15 @@ public class MatchMinMaxGreedy extends TernaryOperator {
 
 
         return false;
+    }
+
+    @Override
+    public JsonObject toJson() {
+        var obj = new JsonObject();
+        obj.addProperty("type", "repeat");
+        obj.add("lower", new JsonPrimitive(getLower()));
+        obj.add("upper", new JsonPrimitive(getUpper()));
+        obj.add("child", getFirst().toJson());
+        return obj;
     }
 }

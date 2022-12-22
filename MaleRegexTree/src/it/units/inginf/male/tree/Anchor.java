@@ -17,6 +17,9 @@
  */
 package it.units.inginf.male.tree;
 
+import com.google.gson.JsonObject;
+import jdk.jshell.spi.ExecutionControl;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -104,6 +107,10 @@ public class Anchor extends AbstractNode implements Leaf{
         }
         return true;
     }
-    
+
+    @Override
+    public JsonObject toJson(){
+        throw new UnsupportedOperationException();
+    }
     
 }

@@ -17,6 +17,7 @@
  */
 package it.units.inginf.male.tree.operator;
 
+import com.google.gson.JsonObject;
 import it.units.inginf.male.tree.DescriptionContext;
 
 /**
@@ -35,6 +36,11 @@ public class PositiveLookahead extends Lookaround{
         builder.append("(?=");
         getChildrens().get(0).describe(builder, context, flavour);
         builder.append(")");
+    }
+
+    @Override
+    public JsonObject toJson() {
+        throw new UnsupportedOperationException();
     }
     
 }

@@ -17,6 +17,7 @@
  */
 package it.units.inginf.male.tree.operator;
 
+import com.google.gson.JsonObject;
 import it.units.inginf.male.tree.DescriptionContext;
 
 /**
@@ -41,5 +42,14 @@ public class Group extends UnaryOperator{
     @Override
     public boolean isValid() {
         return getChildrens().get(0).isValid();
+    }
+
+    @Override
+    public JsonObject toJson() {
+        var obj = new JsonObject();
+        obj.addProperty("type", "group");
+        obj.addProperty("name", "unnamed_group");
+        obj.add("child", getChildrens().get(0).toJson());
+        return obj;
     }
 }
